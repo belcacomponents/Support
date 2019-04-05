@@ -1,7 +1,7 @@
 {
     "name": "belca/support",
     "description": "Helper classes for Belca components & Dios CMS",
-    "keywords": ["support", "array", "enum", "laravel", "dios", "dioscms", "belca"],
+    "keywords": ["support", "array", "enum", "constants", "const", "laravel", "dios", "dioscms", "belca"],
     "license": "MIT",
     "authors": [
         {
