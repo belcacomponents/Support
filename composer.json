@@ -1,0 +1,25 @@
+{
+    "name": "belca/support",
+    "description": "Helper classes for Belca components & Dios CMS",
+    "keywords": ["support", "array", "enum", "laravel", "dios", "dioscms", "belca"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Dmitrochenko",
+            "email": "dmitrochenkooleg@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.0",
+    },
+    "suggest": {},
+    "autoload": {
+        "psr-4": {
+            "Belca\\Support\\": ""
+        },
+        "files": [
+            "helpers.php"
+        ]
+    }
+}
