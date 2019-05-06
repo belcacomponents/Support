@@ -72,4 +72,47 @@ class Arr
 
         return null;
     }
+
+    /**
+     * Возвращает оригинальные ключи массива из двумерного массива, при условии,
+     * что передан массив ключей.
+     *
+     * Пример №1.
+     *
+     * Исходный массив:
+     * $properties = ['finfo.created', 'finfo.size' => 'filesize', 'finfo.mime' => 'mime'];
+     *
+     * $keys = Arr::originalKeys($properties);
+     *
+     * Output: ['finfo.created', 'finfo.size', 'finfo.mime']
+     *
+     *
+     * Пример №2.
+     *
+     * Исходный массив:
+     * $properties = ['finfo.created', 'finfo.size', 'finfo.mime'];
+     *
+     * $keys = Arr::originalKeys($properties);
+     *
+     * Output: ['finfo.created', 'finfo.size', 'finfo.mime']
+     *
+     * @param  mixed $array
+     * @return array
+     */
+    public static function originalKeys($array)
+    {
+        if (is_array($array)) {
+            $result = [];
+
+            while (key($array) !== null) {
+                $result[] = is_integer(key($array)) ? current($array) : key($array);
+
+                next($array);
+            }
+
+            return $result;
+        }
+
+        return [];
+    }
 }
