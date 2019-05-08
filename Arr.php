@@ -10,9 +10,9 @@ class Arr
     /**
      * Соединяет значения двумерного массива с помощью разных соединителей.
      *
-     * @param array  $array           Двумерный массив
-     * @param array $chainLinks       Соединители внутренних значений массива
-     * @param string $glue            Соединитель конечных значений массива
+     * @param  array  $array           Двумерный массив
+     * @param  array  $chainLinks      Соединители внутренних значений массива
+     * @param  string $glue            Соединитель конечных значений массива
      * @return string
      */
     public static function doubleImplode($array = [], $chainLinks = ["", "", ""], $glue = "")

@@ -69,4 +69,14 @@ class Roles extends UserRoles
 
 # Array
 
+doubleImplode($array = [], $chainLinks = ["", "", ""], $glue = "")
+pullThroughSeparator($array, $target, $separator = '.')
+originalKeys($array)
+
+# Config
+
+getConfigArrayByConfigKeys($keys, $default = [])
+
 # Helpers
+
+html_tag_attributes($attributes, $defaultModifiers)
