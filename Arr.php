@@ -10,9 +10,9 @@ class Arr
     /**
      * Соединяет значения двумерного массива с помощью разных соединителей.
      *
-     * @param  array  $array           Двумерный массив
-     * @param  array  $chainLinks      Соединители внутренних значений массива
-     * @param  string $glue            Соединитель конечных значений массива
+     * @param  array   $array           Двумерный массив
+     * @param  array   $chainLinks      Соединители внутренних значений массива
+     * @param  string  $glue            Соединитель конечных значений массива
      * @return string
      */
     public static function doubleImplode($array = [], $chainLinks = ["", "", ""], $glue = "")
@@ -299,7 +299,7 @@ class Arr
     }
 
     /**
-     * Удаляет пустые значения массива с помощью функции empty.
+     * Удаляет пустые значения массива с помощью функции empty().
      *
      * @param  array $array
      * @return array
@@ -309,5 +309,152 @@ class Arr
         return array_filter($array, function ($value) {
             return (! empty($value));
         });
+    }
+
+    /**
+     * Удаляет значения массива null с помощью функции is_null().
+     *
+     * @param  array $array
+     * @return array
+     */
+    public static function removeNull($array)
+    {
+        return array_filter($array, function ($value) {
+            return (! is_null($value));
+        });
+    }
+
+    /**
+     * Рекурсивно удаляет пустые значения многомерного массива.
+     * Если $resetIndex - true, то сбрасывает числовые ключи массива.
+     *
+     * @param  array   $array
+     * @param  boolean $resetIndex
+     * @return array
+     */
+    public static function removeEmptyRecurcive($array, $resetIndex = true)
+    {
+        foreach ($array as $key => &$value) {
+            if (empty($value)) {
+                unset($array[$key]);
+            } else {
+                if (is_array($value)) {
+                    $value = self::removeEmptyRecurcive($value);
+
+                    if (empty($value)) {
+                        unset($array[$key]);
+                    }
+
+                    // Если в массиве числовые ключи и необходимо сбросить их,
+                    // то сбрасываем их.
+                    elseif (self::isArrayWithIntKey($value) && $resetIndex) {
+                        $value = array_values($value);
+                    }
+                }
+            }
+        }
+
+        return $array;
+    }
+
+    /**
+     * Рекурсивно удаляет значения равные null в многомерном массиве.
+     * Если $resetIndex - true, то сбрасывает числовые ключи массива.
+     *
+     * @param  array   $array
+     * @param  boolean $resetIndex
+     * @return array
+     */
+    public static function removeNullRecurcive($array, $resetIndex = true)
+    {
+        foreach ($array as $key => &$value) {
+            if (is_null($value)) {
+                unset($array[$key]);
+            } else {
+                if (is_array($value)) {
+                    $value = self::removeNullRecurcive($value);
+
+                    if (is_null($value)) {
+                        unset($array[$key]);
+                    }
+
+                    // Если в массиве числовые ключи и необходимо сбросить их,
+                    // то сбрасываем их.
+                    elseif (self::isArrayWithIntKey($value) && $resetIndex) {
+                        $value = array_values($value);
+                    }
+                }
+            }
+        }
+
+        return $array;
+    }
+
+    /**
+     * Проверяет, числовые ли ключи в массиве.
+     *
+     * По текущему алгоритму числовым массивом является тот массив, где первый
+     * и последние ключи элементов являются числом.
+     *
+     * @param  array  $array
+     * @return boolean
+     */
+    public static function isArrayWithIntKey($array)
+    {
+        if (is_array($array)) {
+            for (reset($array); is_int(key($array)); next($array));
+
+            return is_null(key($array));
+        }
+
+        return false;
+    }
+
+    /**
+     * Проверяет, является ли первое и последнее значение в массиве с
+     * числовыми ключами. Данный простой алгоритм может послужить аналогом
+     * функции isArrayWithIntKey(), при условии, что все ключи массива
+     * будут принадлежать одному или другому типу.
+     *
+     * @param  array  $array
+     * @return boolean
+     */
+    public static function isFirstLastWithIntKey($array)
+    {
+        reset($array);
+        $array_first_key = key($array);
+
+        end($array);
+        $array_last_key = key($array);
+
+        return is_int($array_first_key) && is_int($array_last_key);
+    }
+
+    /**
+     * Добавляет к указанному массиву массив новых ключей и значений в конец
+     * массива. Если $replace - true, то все существующие значения будут
+     * заменены.
+     * В отличии от array_merge() функция не создает и не возвращает новый
+     * массив, а работает с исходным массивом.
+     *
+     * @param  array   $source
+     * @param  array   $array
+     * @param  boolean $replace
+     * @return void
+     */
+    public static function pushArray(&$source, $array, $replace = true)
+    {
+        if (is_array($source) && is_array($array)) {
+            foreach ($array as $key => $value) {
+
+                if (! $replace) {
+                    if (array_key_exists($key, $source)) {
+                        break;
+                    }
+                }
+
+                $source[$key] = $value;
+            }
+        }
     }
 }

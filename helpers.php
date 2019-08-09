@@ -26,10 +26,35 @@ if (! function_exists('html_tag_attributes')) {
 
         // Удаляем все пустые значения, чтобы не было пустых атрибутов в тегах
         if ($removeEmpty) {
-            $atrs = $atrs = Arr::removeEmpty($atrs);
+            $atrs = Arr::removeNull($atrs);
         }
 
         return Arr::doubleImplode($atrs, ["", "=\"", "\""], " ");;
+    }
+}
+
+if (! function_exists('js_array')) {
+    /**
+     * Объединяет два массива атрибутов (новый и по умолчанию) с помощью
+     * функции \Belca\Suppurt\Arr::mergeByRules() и конвертирует массив
+     * атрибутов HTML тега в строку атрибутов HTML тега.
+     *
+     * @param  array   $attributes   Массив атрибутов в виде "ключ => значение"
+     * @param  boolean $removeEmpty  Удаляет нулевые значения массива
+     * @return string
+     */
+    function js_array($attributes = [], $removeEmpty = true) {
+
+        // Удаляем все пустые значения, чтобы не было пустых атрибутов в тегах
+        if ($removeEmpty) {
+            $attributes = Arr::removeEmpty($attributes);
+        }
+
+        foreach ($attributes as $value) {
+            $result[] = "\"".$value."\"";
+        }
+
+        return htmlspecialchars_decode('['.implode(',', $result).']');
     }
 }
 
