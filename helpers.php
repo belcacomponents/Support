@@ -29,6 +29,10 @@ if (! function_exists('html_tag_attributes')) {
             $atrs = Arr::removeNull($atrs);
         }
 
+        // Преобразуем значения атрибутов, т.к. они могут содержать символы
+        // нарушающие конструкцию тега ("'>) 
+        $atrs = array_map('htmlspecialchars', $atrs);
+
         return Arr::doubleImplode($atrs, ["", "=\"", "\""], " ");;
     }
 }
