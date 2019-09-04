@@ -2,10 +2,13 @@
 
 namespace Belca\Support;
 
+use Illuminate\Config\Repository as IlluminateConfig;
+
 class Config
 {
     /**
-     * Возвращает массив значений конфигурации по ключам конфигураци.
+     * Get array of values from configuration (Illuminate\Config\Repository &
+     * config/<file_name>.php) by configuration keys.
      *
      * @param  array $keys       Ассоциативный массив с именем возвращаемого ключа
      * и запрашиваемым ключем из файла конфигурации.
@@ -14,16 +17,23 @@ class Config
      * ключ - значение по умолчанию.
      * @return array
      */
-    public static function getConfigArrayByConfigKeys($keys, $default = [])
+    public static function getValuesFromConfigByConfigKeys($keys, $default = [])
     {
         $settings = [];
 
-        foreach ($keys as $key => $value) {
-            if (config($value)) {
-                $settings[$key] = config($value);
-            } elseif (isset($default[$key])) {
-                $settings[$key] = $default[$key];
+        if (is_array($keys) && count($keys)) {
+
+            $config = new IlluminateConfig;
+
+            foreach ($keys as $key => $value) {
+                if ($config->has($value)) {
+                    $settings[$key] = $config->get($value);
+                } elseif (isset($default[$key])) {
+                    $settings[$key] = $default[$key];
+                }
             }
+        } else {
+            $settings = $default;
         }
 
         return $settings;
