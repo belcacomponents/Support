@@ -1,9 +1,63 @@
 # Support
-Вспомогательные классы для компонентов Belca, составляющих основу Dios CMS.
 
-# Constants
+Вспомогательные классы для компонентов Belca, составляющих основу Dios System. Могут использоваться независимо от Belca, Dios System, Illuminate и Laravel.
 
-# Enum
+# Constants & Enum
+
+# Array
+
+Uses Belca\Arr class.
+
+Arr::doubleImplode($array = [], $chainLinks = ["", "", ""], $glue = "")
+Arr::pullThroughSeparator($array, $target, $separator = '.')
+Arr::originalKeys($array)
+Arr::mergeByRules($attributes, $modifiers)
+Arr::trim($array)
+Arr::removeEmpty($array)
+Arr::removeNull($array)
+Arr::removeEmptyRecurcive($array, $resetIndex = true)
+Arr::removeNullRecurcive($array, $resetIndex = true)
+Arr::isArrayWithIntKey($array)
+Arr::isFirstLastWithIntKey($array)
+Arr::pushArray(&$source, $array, $replace = true)
+
+# Config (depends on Laravel: Illuminate\Config\Repository)
+
+Uses Belca\Config class and depends on Illuminate\Config\Repository.
+
+Config::getValuesFromConfigByConfigKeys($keys, $default = [])
+
+# HTML
+
+Uses Belca\HTML class.
+
+# HTTP
+
+Uses Belca\HTTP class.
+
+HTTP::parseAcceptLanguage($acceptLanguage)
+
+# String
+
+Uses Belca\Str class.
+
+Str::removeDuplicateSymbols($string, $symbol, $number = 2, $stict = false)
+Str::reduceDuplicateSymbols($string, $symbol, $number = 1)
+Str::normalizeFilePath($string)
+Str::differenceSubstring($sourceString, $secondString, $startLeft = true)
+Str::firstElementChain($chain, $separator = '.')
+Str::lastElementChain($chain, $separator = '.')
+
+# ServiceProvider (depends on Laravel: Illuminate\Support\ServiceProvider, Illuminate\Foundation\AliasLoader)
+
+Extends Illuminate\Support\ServiceProvider class with Belca\Support\ServiceProvider class.
+
+$this->recurciveReplaceConfigFrom($path, $key)
+$this->registerExtensibleClass($alias, $className)
+
+# Helpers
+
+html_tag_attributes($attributes, $defaultModifiers)
 
 Где используются эти имена и когда необходимо вызывать последние константы (в миграциях БД).
 
@@ -66,17 +120,3 @@ class Roles extends UserRoles
   <br><br>
   Последние константы: {{ implode(', ', \App\Models\User\NewRoles::lastConstants()) }}
   <br><br>
-
-# Array
-
-doubleImplode($array = [], $chainLinks = ["", "", ""], $glue = "")
-pullThroughSeparator($array, $target, $separator = '.')
-originalKeys($array)
-
-# Config
-
-getConfigArrayByConfigKeys($keys, $default = [])
-
-# Helpers
-
-html_tag_attributes($attributes, $defaultModifiers)

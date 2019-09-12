@@ -18,7 +18,13 @@ abstract class ServiceProvider extends IlluminateServiceProvider
     {
         $config = $this->app['config']->get($key, []);
 
-        $this->app['config']->set($key, array_replace_recursive(require $path, $config));
+        if (file_exists($path)) {
+            $array = require $path;
+
+            if (is_array($array)) {
+                $this->app['config']->set($key, array_replace_recursive($array, $config));
+            }
+        }
     }
 
     /**
@@ -60,7 +66,7 @@ abstract class ServiceProvider extends IlluminateServiceProvider
         $loader = AliasLoader::getInstance();
 
         $key = array_search($className, $loader->getAliases()) ?: key_exists($className, $loader->getAliases()) ? $className : null;
-    
+
         if ($key) {
             if (is_string($extenders)) {
                 $extenders = [$extenders];

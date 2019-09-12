@@ -9,7 +9,7 @@ abstract class AbstractConstants
      *
      * @return array
      */
-    static function getConstants()
+    public static function getConstants()
     {
         $rc = new \ReflectionClass(get_called_class());
 
@@ -21,7 +21,7 @@ abstract class AbstractConstants
      *
      * @return array
      */
-    static function lastConstants()
+    public static function lastConstants()
     {
         $parentConstants = static::getParentConstants();
 
@@ -35,7 +35,7 @@ abstract class AbstractConstants
      *
      * @return array
      */
-    static function getParentConstants()
+    public static function getParentConstants()
     {
         $rc = new \ReflectionClass(get_parent_class(static::class));
         $consts = $rc->getConstants();
@@ -52,7 +52,7 @@ abstract class AbstractConstants
      * @param  string $const Имя константы
      * @return mixed
      */
-    static function getConst($const)
+    public static function getConst($const)
     {
         return defined ("static::$const") ? constant("static::$const") : null;
     }
@@ -63,7 +63,7 @@ abstract class AbstractConstants
      * @param  $string $const Имя константы
      * @return bool
      */
-    static function defined($const)
+    public static function defined($const)
     {
         return defined("static::$const");
     }

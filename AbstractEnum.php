@@ -11,7 +11,7 @@ abstract class AbstractEnum extends AbstractConstants
      *
      * @return array
      */
-    static function getConstants()
+    public static function getConstants()
     {
         $rc = new \ReflectionClass(get_called_class());
         $consts = $rc->getConstants();
@@ -26,7 +26,7 @@ abstract class AbstractEnum extends AbstractConstants
      *
      * @return array
      */
-    static function getParentConstants()
+    public static function getParentConstants()
     {
         $rc = new \ReflectionClass(get_parent_class(static::class));
         $consts = $rc->getConstants();
@@ -41,7 +41,7 @@ abstract class AbstractEnum extends AbstractConstants
      *
      * @return mixed
      */
-    static function getDefault()
+    public static function getDefault()
     {
         return static::DEFAULT;
     }
