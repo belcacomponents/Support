@@ -19,12 +19,11 @@ class Arr
     {
         if (is_array($array) && count($array) > 0) {
             foreach ($array as $key => $value) {
-              if (!is_bool($value) && !is_array($value)) {
-                $atrs[] = $chainLinks[0]. $key . $chainLinks[1] . $value . $chainLinks[2];
-              }
-              elseif ($value) {
-                $atrs[] = $key;
-              }
+                if (! is_bool($value) && ! is_array($value)) {
+                    $atrs[] = $chainLinks[0]. $key . $chainLinks[1] . $value . $chainLinks[2];
+                } elseif ($value) {
+                    $atrs[] = $key;
+                }
             }
         }
 
@@ -172,8 +171,9 @@ class Arr
      * @param  array  $modifiers  Массив по умолчанию
      * @return array
      */
-    public static function mergeByRules($attributes, $modifiers)
+    public static function mergeByRules($attributes, $modifiers = [])
     {
+        // TODO данную функцию лучше вынести за пределы этого класса в ExtArr / SpecArr / HTML
         $atrs = [];
 
         if (! empty($attributes) && is_array($attributes)) {
@@ -221,7 +221,7 @@ class Arr
 
                     // Присваиваем переданное значение, вместо значения по умолчанию
                     if (! array_key_exists($key, $modifiers) || (array_key_exists($key, $modifiers) && $modifiers[$key] != null)) {
-                        $atrs[$key] .= $value;
+                        $atrs[$key] .= $value; // WARNING: Значение должно быть массивом
                     }
                 }
 
@@ -295,7 +295,13 @@ class Arr
      */
     public static function trim($array)
     {
-        return array_map('trim', $array);
+        return array_map(function ($val) {
+            if (is_string($val)) {
+                return trim($val);
+            }
+
+            return $val;
+        }, $array);
     }
 
     /**
@@ -321,6 +327,19 @@ class Arr
     {
         return array_filter($array, function ($value) {
             return (! is_null($value));
+        });
+    }
+
+    /**
+     * Удаляет значения массива со значением 'null' или пустой строкой.
+     *
+     * @param  array $array
+     * @return array
+     */
+    public static function removeNotScalar($array)
+    {
+        return array_filter($array, function ($value) {
+            return (is_scalar($value));
         });
     }
 
@@ -456,5 +475,25 @@ class Arr
                 $source[$key] = $value;
             }
         }
+    }
+
+    /**
+     * Удаляет в массиве значения, если они также являются массивами (вложенным
+     * массивом или подмассивом). Если $resetIndex - true, то сбрасывает ключи
+     * массива.
+     *
+     * @param  array   $array
+     * @param  boolean $resetIndex
+     * @return array
+     */
+    public static function removeArrays($array, $resetIndex = false)
+    {
+        foreach ($array as $key => $item) {
+            if (is_array($item)) {
+                unset($array[$key]);
+            }
+        }
+
+        return $resetIndex ? array_values($array) : $array;
     }
 }
