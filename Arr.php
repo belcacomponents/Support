@@ -296,11 +296,7 @@ class Arr
     public static function trim($array)
     {
         return array_map(function ($val) {
-            if (is_string($val)) {
-                return trim($val);
-            }
-
-            return $val;
+            return is_string($val) ? trim($val) : $val;
         }, $array);
     }
 
@@ -338,9 +334,7 @@ class Arr
      */
     public static function removeNotScalar($array)
     {
-        return array_filter($array, function ($value) {
-            return (is_scalar($value));
-        });
+        return array_filter($array, 'is_scalar');
     }
 
     /**
