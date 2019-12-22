@@ -9,7 +9,7 @@
 ||||
 |--|--|--|
 |[Constants & Enum](#constants)|[Arrays](#arrays)|[Special arrays](#special-arrays)|
-|[HTML](#HTML)|[HTTP](#HTTP)|[Strings](#Strings)|
+|[HTML](#html)|[HTTP](#HTTP)|[Strings](#strings)|
 |[ServiceProvider](#service-provider)|||
 
 ## <a name="constants"></a> Константы и перечисления (Constants & Enum)
@@ -614,9 +614,13 @@ $result = Arr::removeArrays($array);
 
 Функции класса `Belca\Support\SpecialArr` предназначены для обработки массивов со значениями хранящимися по определенным правилам и обрабатываются соответствующими функциями.
 
+||||
+|--|--|--|
+|[SpecialArr::originalKeys](#special-array-original-keys)|[SpecialArr::doubleImplode](#special-array-double-implode)|[SpecialArr::pullThroughSeparator](#special-array-pull-through-separator)|
+
 ### <a name="special-array-original-keys"></a> SpecialArr::originalKeys
 
-`Arr::originalKeys($array)`
+`SpecialArr::originalKeys($array)`
 
 Возвращает оригинальные ключи массива, при условии, что передан массив ключей, в том числе состоящий из двумерного массива, где в качестве значения вложенного массива строка - алиас ключа.
 
@@ -625,7 +629,7 @@ $result = Arr::removeArrays($array);
 ```php
 $array = ['finfo.created', 'finfo.size' => 'filesize', 'finfo.mime' => 'mime'];
 
-$keys = Arr::originalKeys($array);
+$keys = SpecialArr::originalKeys($array);
 
 // Output: ['finfo.created', 'finfo.size', 'finfo.mime']
 ```
@@ -635,7 +639,7 @@ $keys = Arr::originalKeys($array);
 ```php
 $array = ['finfo.created', 'finfo.size', 'finfo.mime'];
 
-$keys = Arr::originalKeys($array);
+$keys = SpecialArr::originalKeys($array);
 
 // Output: ['finfo.created', 'finfo.size', 'finfo.mime']
 ```
@@ -712,9 +716,14 @@ $value = SpecialArr::pullThroughSeparator($array, 'finfo.date'); // Output: null
 use Belca\Support\HTML;
 ```
 
+||||
+|--|--|--|
+|[HTML::removeTags](#html-remove-tags)|[HTML::removeTagContent](#html-remove-tag-content)|[HTML::removeSingleTags](#html-remove-single-tags)|
+|[HTML::removeTagAttributes](#html-remove-tag-attributes)|||
+
 ### <a name="html-remove-tags"></a> HTML::removeTags
 
-`removeTags($html, $allowedTags = [], $clearTags = true, $allowedAttributes = [])`
+`HTML::removeTags($html, $allowedTags = [], $clearTags = true, $allowedAttributes = [])`
 
 Функция удаляет теги указанного HTML контента. Можно указывать разрешенные теги и оставлять только разрешенные атрибуты тегов.
 
@@ -762,7 +771,7 @@ $html = HTML::removeTags($html, $allowedTags, $clearTags, $allowedAttributes);
 
 **Пример 4: удаление всех тегов кроме разрешенных, оставив все атрибуты в тегах.**
 
-*Результат такой функции может быть небезопасным*, т.к. при разрешении таких тегов как *script*, *style* и других подобных тегов, полученный код может исполняться и изменять отображаемый контент, что может быть нежелательно для пользователя.
+Результат такой функции может быть небезопасным, т.к. при разрешении таких тегов как *script*, *style* и других подобных тегов, полученный код может исполняться и изменять отображаемый контент, что может быть нежелательно для пользователя.
 
 ```php
 $html = "<p><b class='color_red' style='color: green;'>Lorem ipsum dolor</b> sit amet, consectetur adipisicing elit, <hr> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br><img src='/path/to/img.jpg'></p>";
@@ -777,7 +786,7 @@ $html = HTML::removeTags($html, $allowedTags, false);
 
 ### <a name="html-remove-tag-content"></a> HTML::removeTagContent
 
-`removeTagContent($html, $tags = [])`
+`HTML::removeTagContent($html, $tags = [])`
 
 Функция удаляет содержимое указанных тегов и сами теги. Удаляются данные от начала тега до конца тега, не затрагивая окружающие пробелы, табуляции и переносы строк.
 
@@ -807,7 +816,7 @@ $html = HTML::removeTagContent($html, $tags = ['b', 'br', 'img']);
 
 ### <a name="html-remove-single-tags"></a> HTML::removeSingleTags
 
-`removeSingleTags($html, $allowed = [])`
+`HTML::removeSingleTags($html, $allowed = [])`
 
 Функция удаляет одиночные теги, кроме разрешенных.
 
@@ -827,7 +836,7 @@ $html = HTML::removeSingleTags($html, $allowed = ['hr']);
 
 ### <a name="html-remove-tag-attributes"></a> HTML::removeTagAttributes
 
-`removeTagAttributes($html, $allowedAttributes = [])`
+`HTML::removeTagAttributes($html, $allowedAttributes = [])`
 
 Функция удаляет атрибуты тегов, оставляя разрешенные атрибуты.
 При полной очистке тега от атрибутов создается новый атрибут в формате HTML5, т.о. все теги будут в формате *<tag>* без символа '/' в конце, даже одиночные теги.
@@ -856,7 +865,7 @@ $languages = HTTP::parseAcceptLanguage("ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
 // ];
 ```
 
-## Strings - функции для обработки строк
+## <a name="strings"></a> Strings - функции для обработки строк
 
 Для использования функций подключите класс `Belca\Support\Str`.
 
@@ -866,7 +875,7 @@ use Belca\Support\Str;
 
 ||||
 |--|--|--|
-|[Str::removeDuplicateSymbols](#string-remove-duplicate-symbols)|[Str::reduceDuplicateSymbols](#string-reduce-duplicate-symbols)|[Str::normalizeFilePath](string-normalize-file-path)|
+|[Str::removeDuplicateSymbols](#string-remove-duplicate-symbols)|[Str::reduceDuplicateSymbols](#string-reduce-duplicate-symbols)|[Str::normalizeFilePath](#string-normalize-file-path)|
 |[Str::differenceSubstring](#string-difference-substring)|[Str::findPositionFromEnd](#string-find-position-from-end)|[Str::firstElementOfChain](#string-first-element-of-chain)|
 |[Str::lastElementOfChain](#string-last-element-of-chain)|||
 
