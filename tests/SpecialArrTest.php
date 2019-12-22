@@ -46,8 +46,26 @@ final class SpecialArrTest extends TestCase
             ],
         ];
 
-        $target = 'finfo.size';
+        $this->assertEquals(SpecialArr::pullThroughSeparator($array, 'finfo.size'), 998);
+        $this->assertEquals(SpecialArr::pullThroughSeparator($array, 'finfo.siz2e'), null);
+        $this->assertEquals(SpecialArr::pullThroughSeparator($array, 'finfo'), [
+            'size' => 998,
+            'mime' => 'image/png',
+        ]);
+    }
 
-        $this->assertEquals(SpecialArr::pullThroughSeparator($array, $target), 998);
+    public function testDoubleImplode()
+    {
+        $array = [
+            'name' => 'phone',
+            'maxlength' => 20,
+            'class' => 'input input_type_primary input_width_medium',
+            'required' => true,
+        ];
+
+        $this->assertEquals(SpecialArr::doubleImplode($array, ["", "=\"", "\""], " "), 'name="phone" maxlength="20" class="input input_type_primary input_width_medium" required');
+
+        // WARNING: функция требует доработки.
+        //$this->assertEquals(SpecialArr::doubleImplode($array, ["'", "':'", "'"], ", "), "'name':'phone', 'maxlength':'20', 'class':'input input_type_primary input_width_medium', 'required':true");
     }
 }
