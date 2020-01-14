@@ -164,7 +164,7 @@ $result = \Belca\Support\Arr::trim($array); // и другие функции
 |[Arr::trim](#array-trim) |[Arr::removeEmpty](#array-remove-empty)|[Arr::removeNull](#array-remove-null)|
 |[Arr::removeNotScalar](#array-remove-not-scalar)|[Arr::removeEmptyRecurcive](#array-remove-empty-recurcive)|[Arr::removeNullRecurcive](#array-remove-null-recurcive)|
 |[Arr::isArrayWithIntKeys](#array-is-array-with-int-keys)|[Arr::isIntKeys](#array-is-int-keys)|[Arr::isFirstLastWithIntKeys](#array-is-first-last-with-int-keys)|
-|[Arr::pushArray](#array-push-array)|[Arr::removeArrays](#array-remove-arrays)||
+|[Arr::pushArray](#array-push-array)|[Arr::removeArrays](#array-remove-arrays)|[Arr::last](#array-last)|
 
 ### <a name="array-trim"></a> Arr::trim
 
@@ -608,6 +608,18 @@ $array = [
 $result = Arr::removeArrays($array);
 
 // Output: [1, 2, 3, 4, 5, 7, 8, 9, new stdClass()];
+```
+
+### <a name="array-last"></a> Arr::last
+
+`Arr::last(&$array) : mixed`
+
+Функция возвращает последний элемент массива. Не смотря на то, что в функцию передается ссылка на массив, внутренний указатель массива не сбрасывается.
+
+```php
+$array = [5 => 1, 2, 3, 4, 5];
+
+$last = Arr::last($array); // Output: 5
 ```
 
 ## <a name="special-arrays"></a> Функции обработки специальных массивов (Special arrays)

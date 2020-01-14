@@ -658,4 +658,24 @@ final class ArrTest extends TestCase
         $this->assertEquals(Arr::trim($array2), $result2);
         $this->assertEquals(Arr::trim($array3), $result3);
     }
+
+    public function testLast()
+    {
+        $array1 = [1, 2, 3, 4, 5];
+        $this->assertEquals(Arr::last($array1), 5);
+
+        $array2 = [5 => 1, 2, 3, 4, 5, 6];
+        $this->assertEquals(Arr::last($array2), 6);
+
+        $this->assertEquals(1, current($array2));
+        next($array2);
+        $this->assertEquals(2, current($array2));
+        $this->assertEquals(Arr::last($array2), 6);
+        $this->assertEquals(2, current($array2));
+        end($array2);
+        $this->assertEquals(6, current($array2));
+        $this->assertEquals(Arr::last($array2), 6);
+        unset($array2[key($array2)]);
+        $this->assertEquals(Arr::last($array2), 5);
+    }
 }

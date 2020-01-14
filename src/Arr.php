@@ -273,4 +273,21 @@ class Arr
 
         return $resetIndex ? array_values($array) : $array;
     }
+
+    /**
+     * Функция возвращает последний элемент массива. Не смотря на то, что в
+     * функцию передается ссылка на массив, внутренний указатель массива
+     * не сбивается. 
+     *
+     * @param  array $array
+     * @return mixed
+     */
+    public static function last(&$array)
+    {
+        if (! is_array($array) && empty($array)) {
+            return null;
+        }
+
+        return array_slice($array, -1, 1)[0];
+    }
 }
