@@ -165,6 +165,7 @@ $result = \Belca\Support\Arr::trim($array); // и другие функции
 |[Arr::removeNotScalar](#array-remove-not-scalar)|[Arr::removeEmptyRecurcive](#array-remove-empty-recurcive)|[Arr::removeNullRecurcive](#array-remove-null-recurcive)|
 |[Arr::isArrayWithIntKeys](#array-is-array-with-int-keys)|[Arr::isIntKeys](#array-is-int-keys)|[Arr::isFirstLastWithIntKeys](#array-is-first-last-with-int-keys)|
 |[Arr::pushArray](#array-push-array)|[Arr::removeArrays](#array-remove-arrays)|[Arr::last](#array-last)|
+|[Arr::unset]|(#array-unset)||
 
 ### <a name="array-trim"></a> Arr::trim
 
@@ -621,6 +622,56 @@ $array = [5 => 1, 2, 3, 4, 5];
 
 $last = Arr::last($array); // Output: 5
 ```
+
+### <a name="array-unset"></a> Arr::unset
+
+`Arr::unset($array, ...$indexes) : array`
+
+Удаляет указанные индексы и возвращает измененный массив с сокранением индексов.
+
+```php
+$array = [
+    1,
+    2,
+    3,
+    'four' => 4,
+    'five' => 5,
+    'matrix' => [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+    ],
+    7,
+    'eight' => 8,
+    9,
+    'symbols' => ['a', 'b', 'c'],
+    'object' => new stdClass(),
+];
+
+$output = Arr::unset($array, 0, 'four', 'eight', 4);
+$output = Arr::unset($array, [0, 'four', 'eight', 4]);
+$output = Arr::unset($array, [0, 'four'], ['eight', 4]);
+$output = Arr::unset($array, [0, 'four'], [['eight'], [4], []]);
+
+// Output:
+// [
+//    1 => 2,
+//    2 => 3,
+//   'five' => 5,
+//    'matrix' => [
+//        [1, 2, 3],
+//        [4, 5, 6],
+//         [7, 8, 9],
+//    ],
+//    3 => 7,
+//    'symbols' => ['a', 'b', 'c'],
+//    'object' => new stdClass(),
+// ]
+```
+
+Как видите из примера выше, функция принимает практически любые допустимые ключи и вложенные массивы, которые могут содержать ключи.
+
+Эта функция может быть полезна, когда необходимо удалить из массива заранее неизвестные значения, но будут известны их индексы. Похожего эффекта можно достичь с помощью функции `array_filter()`, однако эта функция более читаема, компакта и универсальна. 
 
 ## <a name="special-arrays"></a> Функции обработки специальных массивов (Special arrays)
 

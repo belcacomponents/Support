@@ -678,4 +678,107 @@ final class ArrTest extends TestCase
         unset($array2[key($array2)]);
         $this->assertEquals(Arr::last($array2), 5);
     }
+
+    public function testUnset()
+    {
+        $this->assertEquals([], Arr::unset([], 10));
+        $this->assertEquals([], Arr::unset([], []));
+        $this->assertEquals([], Arr::unset([], null));
+
+        $array1 = [
+            0, 2, 3, 4, 5, 6,
+            'key1' => '1',
+            'key2' => 2,
+            9 => 10,
+            10 => 11,
+            100,
+            120,
+            'key3' => 3,
+            'key4' => 4,
+            'key5' => 5,
+            99,
+            23,
+            45,
+            56,
+            67
+        ];
+        $array2 = Arr::unset($array1, 0);
+
+        $result1 = [
+            1 => 2, 3, 4, 5, 6,
+            'key1' => '1',
+            'key2' => 2,
+            9 => 10,
+            10 => 11,
+            100,
+            120,
+            'key3' => 3,
+            'key4' => 4,
+            'key5' => 5,
+            99,
+            23,
+            45,
+            56,
+            67
+        ];
+        $this->assertEquals($result1, $array2);
+
+        $array3 = Arr::unset($array2, 2, 4, 'key1');
+
+        $result2 = [
+            1 => 2, 3 => 4, 5 => 6,
+            'key2' => 2,
+            9 => 10,
+            10 => 11,
+            100,
+            120,
+            'key3' => 3,
+            'key4' => 4,
+            'key5' => 5,
+            99,
+            23,
+            45,
+            56,
+            67
+        ];
+        $this->assertEquals($result2, $array3);
+
+        $array4 = Arr::unset($array3, ['key2', 10, 12, 20,30]);
+
+        $result3 = [
+            1 => 2, 3 => 4, 5 => 6,
+            9 => 10,
+            11 => 100,
+            'key3' => 3,
+            'key4' => 4,
+            'key5' => 5,
+            13 => 99,
+            23,
+            45,
+            56,
+            67
+        ];
+        $this->assertEquals($result3, $array4);
+
+        $array5 = Arr::unset($array4, ['key2', 'key4'], ['key3', 'key5', 15, 16], []);
+
+        $result4 = [
+            1 => 2, 3 => 4, 5 => 6,
+            9 => 10,
+            11 => 100,
+            13 => 99,
+            23,
+            17 => 67
+        ];
+        $this->assertEquals($result4, $array5);
+
+        $array6 = Arr::unset($array5, ['key2', 'key4'], ['key3', 'key5', 15, 16], [[1, 3, 5, 14, [11]]]);
+
+        $result5 = [
+            9 => 10,
+            13 => 99,
+            17 => 67
+        ];
+        $this->assertEquals($result5, $array6);
+    }
 }

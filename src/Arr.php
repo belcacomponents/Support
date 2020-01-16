@@ -277,7 +277,7 @@ class Arr
     /**
      * Функция возвращает последний элемент массива. Не смотря на то, что в
      * функцию передается ссылка на массив, внутренний указатель массива
-     * не сбивается. 
+     * не сбивается.
      *
      * @param  array $array
      * @return mixed
@@ -289,5 +289,30 @@ class Arr
         }
 
         return array_slice($array, -1, 1)[0];
+    }
+
+    /**
+     * Удаляет указанные индексы и возвращает измененный массив с сокранением
+     * индексов.
+     *
+     * @param  array $array
+     * @param  mixed ...$indexes
+     * @return array
+     */
+    public static function unset($array, ...$indexes)
+    {
+        if (empty($array)) {
+            return [];
+        }
+
+        foreach ($indexes as $index) {
+            if (is_array($index)) {
+                $array = self::unset($array, ...$index);
+            } elseif (is_scalar($index)) {
+                unset($array[$index]);
+            }
+        }
+
+        return $array;
     }
 }
