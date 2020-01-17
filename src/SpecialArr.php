@@ -2,6 +2,8 @@
 
 namespace Belca\Support;
 
+use Belca\Support\Sorting\OrderingByIndexRules;
+
 /**
  * Static functions for handling special arrays.
  */
@@ -33,7 +35,7 @@ class SpecialArr
 
     /**
      * Извлекает значение из многомерного массива с помощью разделителя.
-     * 
+     *
      * @param  mixed  $array     Ассоциативный массив
      * @param  string $target    Путь к извлекаемому значению с разделителем
      * @param  string $separator Разделитель (по умолчанию '.')
@@ -250,5 +252,20 @@ class SpecialArr
         }
 
         return $atrs;
+    }
+
+    /**
+     * Упорядочивает и возвращает полученные ключи в соответствии с правилами
+     * индекса.
+     *
+     * @param  array $keys
+     * @param  array $indexes
+     * @return array
+     */
+    public static function orderKeysByIndexRules($keys, $indexes)
+    {
+        $orderingByIndex = new OrderingByIndexRules();
+
+        return $orderingByIndex->orderKeys($keys, $indexes);
     }
 }

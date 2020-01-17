@@ -239,18 +239,39 @@ class Arr
      * @param  boolean $replace
      * @return void
      */
-    public static function pushArray(&$source, $array, $replace = true)
+    public static function concatArray(&$source, $array, $replace = true)
     {
         if (is_array($source) && is_array($array) && count($array)) {
-            foreach ($array as $key => $value) {
-
-                if (! $replace && array_key_exists($key, $source)) {
-                    break;
-                }
-
-                $source[$key] = $value;
+            if ($replace) {
+                $source = $array + $source;
+            } else {
+                $source += $array;
             }
+
+            // Deprecated
+            // foreach ($array as $key => $value) {
+            //
+            //     if (! $replace && array_key_exists($key, $source)) {
+            //         break;
+            //     }
+            //
+            //     $source[$key] = $value;
+            // }
         }
+    }
+
+    /**
+     * Присоединяет к базовому массиву значения других массивов. Значения
+     * со строковыми ключами будут заменяться, в случае совпадения,
+     * а значения с числовыми ключами будут добавляться.
+     *
+     * @param  array $source
+     * @param  array ...$arrays
+     * @return void
+     */
+    public static function pushArray(&$source, ...$array)
+    {
+        $source = array_merge($source, ...$array);
     }
 
     /**
@@ -307,12 +328,31 @@ class Arr
 
         foreach ($indexes as $index) {
             if (is_array($index)) {
-                $array = self::unset($array, ...$index);
+                self::unsetByReference($array, ...$index);
             } elseif (is_scalar($index)) {
                 unset($array[$index]);
             }
         }
 
         return $array;
+    }
+
+    /**
+     * Удаляет значения из массива по их индексам. Функция ничего не возвращает,
+     * т.к. массив передается по ссылке.
+     *
+     * @param array $array
+     * @param mixed ...$indexes
+     */
+    public static function unsetByReference(&$array, ...$indexes) {
+        if (is_array($array) && count($array) > 0) {
+            foreach ($indexes as $index) {
+                if (is_array($index)) {
+                    self::unsetByReference($array, ...$index);
+                } elseif (is_scalar($index)) {
+                    unset($array[$index]);
+                }
+            }
+        }
     }
 }

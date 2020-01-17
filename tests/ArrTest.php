@@ -53,7 +53,7 @@ final class ArrTest extends TestCase
         $this->assertEquals(Arr::removeArrays($input, true), $resetIndexOutput);
     }
 
-    public function testPushArray()
+    public function testConcatArray()
     {
         // # First test
         $source = [];
@@ -73,13 +73,13 @@ final class ArrTest extends TestCase
 
         // Normal data
         $result = $source; // the result is here
-        Arr::pushArray($result, $array);
+        Arr::concatArray($result, $array);
 
         $this->assertEquals($result, $output);
 
         // Null data
         $sourceNull = null;
-        Arr::pushArray($sourceNull, $array);
+        Arr::concatArray($sourceNull, $array);
 
         $this->assertEquals($sourceNull, null);
 
@@ -100,7 +100,7 @@ final class ArrTest extends TestCase
         $output = array_merge($source, $array);
 
         $result = $source; // the result is here
-        Arr::pushArray($result, $array);
+        Arr::concatArray($result, $array);
 
         $this->assertEquals($result, $output);
     }
