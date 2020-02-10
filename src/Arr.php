@@ -3,7 +3,7 @@
 namespace Belca\Support;
 
 /**
- * Static functions for handling arrays.
+ * Static functions to handle arrays.
  */
 class Arr
 {
@@ -234,7 +234,7 @@ class Arr
      * заменять и числовые значения с одинаковыми ключами, как если бы они были
      * ассоциативными значениями.
      *
-     * @param  array   $source
+     * @param  array   &$source
      * @param  array   $array
      * @param  boolean $replace
      * @return void
@@ -247,16 +247,6 @@ class Arr
             } else {
                 $source += $array;
             }
-
-            // Deprecated
-            // foreach ($array as $key => $value) {
-            //
-            //     if (! $replace && array_key_exists($key, $source)) {
-            //         break;
-            //     }
-            //
-            //     $source[$key] = $value;
-            // }
         }
     }
 
@@ -265,7 +255,7 @@ class Arr
      * со строковыми ключами будут заменяться, в случае совпадения,
      * а значения с числовыми ключами будут добавляться.
      *
-     * @param  array $source
+     * @param  array &$source
      * @param  array ...$arrays
      * @return void
      */
@@ -300,7 +290,7 @@ class Arr
      * функцию передается ссылка на массив, внутренний указатель массива
      * не сбивается.
      *
-     * @param  array $array
+     * @param  array &$array
      * @return mixed
      */
     public static function last(&$array)
@@ -341,7 +331,7 @@ class Arr
      * Удаляет значения из массива по их индексам. Функция ничего не возвращает,
      * т.к. массив передается по ссылке.
      *
-     * @param array $array
+     * @param array &$array
      * @param mixed ...$indexes
      */
     public static function unsetByReference(&$array, ...$indexes) {
@@ -354,5 +344,39 @@ class Arr
                 }
             }
         }
+    }
+
+    /**
+     * Returns the first existing value or returns 'null'.
+     *
+     * @param  array ...$values
+     * @return mixed|null
+     */
+    public function firstExists(...$values)
+    {
+        foreach ($values as $value) {
+            if (isset($value)) {
+                return $value;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the first value which is not empty or returns 'null'.
+     *
+     * @param  array ...$values
+     * @return mixed|null
+     */
+    public function firstNotEmpty(...$values)
+    {
+        foreach ($values as $value) {
+            if (empty($value) === false) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 }

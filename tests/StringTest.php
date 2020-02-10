@@ -39,7 +39,6 @@ final class StringTest extends TestCase
         $source = "AABC aabbcc A A aaaaAAAA A A A B B";
 
         $result = Str::removeDuplicateSymbols($source, 'AA', 1, true);
-        print_r($result);
     }
 
     public function testReduceDuplicateSymbols()
@@ -327,5 +326,15 @@ final class StringTest extends TestCase
         $this->assertEquals(Str::lastElementOfChain($chain22, "=="), $result22);
         $this->assertEquals(Str::lastElementOfChain("==", "=="), null);
         $this->assertEquals(Str::lastElementOfChain("", "=="), null);
+    }
+
+    public function testWrap()
+    {
+        $this->assertEquals("'111'", Str::wrap('111', "'"));
+        $this->assertEquals("111", Str::wrap('111', ""));
+        $this->assertEquals("'111'", Str::wrap('111'));
+        $this->assertEquals("''", Str::wrap(''));
+        $this->assertEquals("", Str::wrap('', ''));
+        $this->assertEquals("21112", Str::wrap('111', '2'));
     }
 }

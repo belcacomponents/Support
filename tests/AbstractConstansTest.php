@@ -45,6 +45,40 @@ final class AbstractConstansTest extends TestCase
         ]);
     }
 
+    public function testList()
+    {
+        $this->assertEquals(FirstConstants::list(), [
+            'USER' => 'user',
+            'SUPERUSER' => 'superuser',
+            'CLIENT' => 'client',
+            'MODERATOR' => 'moderator',
+            'SUPERMODERATOR' => 'superuser',
+        ]);
+
+        $this->assertEquals(SecondConstants::list(), [
+            'USER' => 'user',
+            'SUPERUSER' => 'root',
+            'CLIENT' => 'client',
+            'MODERATOR' => 'moderator',
+            'SUPERMODERATOR' => 'superuser',
+            'VIEWER' => 'viewer',
+            'CHECKER' => 'checker',
+        ]);
+
+        $this->assertEquals(ThirdConstants::list(), [
+            'USER' => 'user',
+            'SUPERUSER' => 'root',
+            'CLIENT' => 'client',
+            'MODERATOR' => 'moderator',
+            'SUPERMODERATOR' => 'superuser',
+            'VIEWER' => 'viewer',
+            'CHECKER' => 'checker',
+            'TESTER' => 'tester',
+            'DEVELOPER' => 'developer',
+            'STAGER' => 'stager',
+        ]);
+    }
+
     public function testGetLastConstants()
     {
         $this->assertEquals(FirstConstants::getLastConstants(), [

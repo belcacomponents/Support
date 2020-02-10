@@ -781,4 +781,31 @@ final class ArrTest extends TestCase
         ];
         $this->assertEquals($result5, $array6);
     }
+
+    public function testFirstExists()
+    {
+        $this->assertSame([], Arr::firstExists([]));
+        $this->assertSame(null, Arr::firstExists(null));
+        $this->assertSame(null, Arr::firstExists(null, null));
+        $this->assertSame([], Arr::firstExists(null, [], null));
+        $this->assertSame('value', Arr::firstExists('value', [], null));
+        $this->assertSame([], Arr::firstExists(null, [], 'value'));
+        $this->assertSame(false, Arr::firstExists(null, false, [], 'value'));
+        $this->assertSame('value', Arr::firstExists(null, 'value', [], true));
+        $this->assertSame(null, Arr::firstExists());
+    }
+
+    public function testFirstNotEmpty()
+    {
+        $this->assertSame(null, Arr::firstNotEmpty([]));
+        $this->assertSame(null, Arr::firstNotEmpty(null));
+        $this->assertSame(null, Arr::firstNotEmpty(null, null));
+        $this->assertSame(null, Arr::firstNotEmpty(null, [], null));
+        $this->assertSame('value', Arr::firstNotEmpty('value', [], null));
+        $this->assertSame('value', Arr::firstNotEmpty(null, [], 'value'));
+        $this->assertSame('value', Arr::firstNotEmpty(null, false, [], 'value'));
+        $this->assertSame('value', Arr::firstNotEmpty(null, 'value', [], true));
+        $this->assertSame(null, Arr::firstNotEmpty());
+        $this->assertSame(true, Arr::firstNotEmpty(false, 0, '', true));
+    }
 }

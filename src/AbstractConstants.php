@@ -17,6 +17,16 @@ abstract class AbstractConstants
     }
 
     /**
+     * Alias getConstants().
+     *
+     * @return array
+     */
+    public static function list()
+    {
+        return static::getConstants();
+    }
+
+    /**
      * Returns an array of constants defined in the called class.
      *
      * @return array

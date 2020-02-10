@@ -3,20 +3,21 @@
 namespace Belca\Support;
 
 /**
- * Статические функции для обработки строк.
+ * Static functions to handle strings.
  */
 class Str
 {
     /**
-     * Удаляет повторяющиеся символы из строки.
+     * Deletes repeated characters from a given string.
      *
-     * @param  string  $string  Исходная строка
-     * @param  string  $symbols Проверяемые символы
-     * @param  integer $number  Минимальное число повторений или точное число повторений
-     * @param  boolean $strict  Если true, то удалит точное число повторений.
+     * @param  string  $string  A source string.
+     * @param  string  $symbols A finding set of characters or a substring.
+     * @param  int     $number  A minial number or a exact number of repeated.
+     * @param  bool    $strict  If it is 'true', then deletes the exact number of repeated.
      * @return string
      */
-    public static function removeDuplicateSymbols($string, $symbols, $number = 1, $strict = false)
+    public static function removeDuplicateSymbols(string $string, string $symbols,
+        int $number = 1, bool $strict = false): string
     {
         if (! is_int($number) || $number < 0) {
             $number = 1;
@@ -28,19 +29,16 @@ class Str
     }
 
     /**
-     * Уменьшает количество повторений подряд идущих символов до указанного
-     * значения.
+     * Reduces a number of consecutive repeated characters to a given number.
      *
      * @param  string  $string
      * @param  string  $symbols
-     * @param  integer $number
+     * @param  int     $number
      * @return string
      */
-    public static function reduceDuplicateSymbols($string, $symbols, $number = 1)
+    public static function reduceDuplicateSymbols(string $string, string $symbols, int $number = 1)
     {
-        if (! is_int($number) || $number < 1) {
-            $number = 1;
-        }
+        $number = $number < 1 ? 1 : $number;
 
         $pattern = '/('.preg_quote($symbols, '/').'){'.($number + 1).',}/';
 
@@ -57,7 +55,7 @@ class Str
      * @param  string $string
      * @return string
      */
-    public static function normalizeFilePath($string)
+    public static function normalizeFilePath(string $string)
     {
         return Str::reduceDuplicateSymbols($string, '/');
     }
@@ -70,14 +68,10 @@ class Str
      *
      * @param  string $sourceString
      * @param  string $secondString
-     * @return string
+     * @return string|null
      */
-    public static function differenceSubstring($sourceString, $secondString)
+    public static function differenceSubstring(string $sourceString, string $secondString)
     {
-        if (! (is_string($sourceString) || is_string($secondString))) {
-            return null;
-        }
-
         if (mb_strlen($sourceString) > mb_strlen($secondString)) {
             $haystack = $sourceString;
             $needle = $secondString;
@@ -104,13 +98,16 @@ class Str
      * Ищет с конца строки и возвращает позицию вхождения подстроки. Если
      * подстрока не найдена, то возвращается 'null'.
      *
-     * @param  string   $haystack Исходная строка.
-     * @param  string   $needle   Значение для поиска.
-     * @param  integer  $offset   Смещение позиции поиска от конца строки.
-     * @param  boolean  $fromEnd  Если 'true', то возвращает позицию отсчитывая с конца (значение -1 - последний элемент).
-     * @return integer|null
+     * @param  string   $haystack A source string.
+     * @param  string   $needle   A value to find.
+     * @param  int      $offset   A offset of the start position
+     *                            from the end of the source string.
+     * @param  bool     $fromEnd  If it is 'true', then returns the position
+     *                            from the end of the source string.
+     * @return int|null
      */
-    public static function findPositionFromEnd($haystack, $needle, $offset = 0, $fromEnd = false)
+    public static function findPositionFromEnd(string $haystack, string $needle,
+        int $offset = 0, bool $fromEnd = false)
     {
         $haystackLength = mb_strlen($haystack);
         $needleLength = mb_strlen($needle);
@@ -135,23 +132,16 @@ class Str
     }
 
     /**
-     * Возвращает первый элемент указанной цепочки.
+     * Returns the first item a given chain.
      *
-     * @param  string $chain     Строка со значениями объединенными через разделитель (цепочка значений)
-     * @param  string $separator Разделитель
+     * @param  string $chain     The chain of values joined by means of a separator.
+     * @param  string $separator
+     * @param  bool   $strict
      * @return string
      */
-    public static function firstElementOfChain($chain, $separator = '.', $strict = false)
+    public static function firstElementOfChain(string $chain,
+        string $separator = '.', bool $strict = false)
     {
-        // Deprecated
-        /*$array = explode($separator, $chain);
-
-        if (empty($array[0]) && isset($array[1])) {
-            return $array[1];
-        }
-
-        return isset($array[0]) ? $array[0] : null;*/
-
         $finishPosition = null;
         $length = mb_strlen($chain);
         $element = null;
@@ -182,19 +172,16 @@ class Str
     }
 
     /**
-     * Возвращает последний элемент указанной цепочки.
+     * Returns the last item a given chain.
      *
-     * @param  string $value     Строка со значениями объединенными через разделитель
-     * @param  string $separator Разделитель
+     * @param  string $chain     The chain of values joined by means of a separator.
+     * @param  string $separator
+     * @param  bool   $strict
      * @return string
      */
-    public static function lastElementOfChain($chain, $separator = '.', $strict = false)
+    public static function lastElementOfChain(string $chain,
+        string $separator = '.', bool $strict = false)
     {
-        // Deprecated
-        /*$array = explode($separator, $chain);
-
-        return is_string($chain) ? end($array) : null;*/
-
         $length = mb_strlen($chain);
         $separatorLength = mb_strlen($separator);
 
@@ -224,6 +211,17 @@ class Str
         } while (($element == null || $element == $separator) && $offset <= $length);
 
         return $element;
+    }
 
+    /**
+     * Returns a given string wrapped into a given wrapper.
+     *
+     * @param  string $str
+     * @param  string $wrapper
+     * @return string
+     */
+    public function wrap(string $str, string $wrapper = '\''): string
+    {
+        return $wrapper.$str.$wrapper;
     }
 }
