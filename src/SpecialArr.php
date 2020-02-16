@@ -268,4 +268,16 @@ class SpecialArr
 
         return $orderingByIndex->orderKeys($keys, $indexes);
     }
+
+    public static function sortKeysByIndexPriority($keys, $indexes)
+    {
+        $orderingByIndex = new OrderingByIndexRules();
+
+        return $orderingByIndex->sortByPriority($keys, $indexes);
+        // TODO сортирует от текущего состояния ключей, изменяя позиции только
+        // в соответствии с индексами.
+        // TODO должен сортировать ключи по их порядку добавления, но
+        // важнее по приоритету, т.е. приоритет + позиция
+        // TODO отсортировать индексы по их приоритетам
+    }
 }

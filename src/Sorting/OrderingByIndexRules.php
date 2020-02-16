@@ -96,9 +96,9 @@ class OrderingByIndexRules
     {
         $nearbyKeys = [];
 
-        if ($side == self::LEFT_SIDE) {
+        if ($side === self::LEFT_SIDE) {
             $indexesOnSomeSide = $this->findIndexesOnLeft($indexes, $key);
-        } elseif ($side == self::RIGHT_SIDE) {
+        } elseif ($side === self::RIGHT_SIDE) {
             $indexesOnSomeSide = $this->findIndexesOnRight($indexes, $key);
         }
 
@@ -122,7 +122,7 @@ class OrderingByIndexRules
     public function findIndexesOnLeft($indexes, $nearbyKey)
     {
         return array_filter($indexes, function ($val) use ($nearbyKey) {
-            if ($val['nearby_key'] == $nearbyKey && $val['direction'] < 0) {
+            if ($val['nearby_key'] === $nearbyKey && $val['direction'] < 0) {
                 return $val;
             }
         });
@@ -138,7 +138,7 @@ class OrderingByIndexRules
     public function findIndexesOnRight($indexes, $nearbyKey)
     {
         return array_filter($indexes, function ($val) use ($nearbyKey) {
-            if ($val['nearby_key'] == $nearbyKey && $val['direction'] > 0) {
+            if ($val['nearby_key'] === $nearbyKey && $val['direction'] > 0) {
                 return $val;
             }
         });
@@ -156,7 +156,7 @@ class OrderingByIndexRules
     {
         if (count($indexes) > 1) {
             uasort($indexes, function ($a, $b) use ($ascending) {
-                if ($a['priority'] == $b['priority']) {
+                if ($a['priority'] === $b['priority']) {
                     return 0;
                 }
 
@@ -165,5 +165,27 @@ class OrderingByIndexRules
         }
 
         return $indexes;
+    }
+
+    /**
+     * Sorts keys by priorities of indexes.
+     *
+     * @param  array $keys
+     * @param  array $indexes
+     * @return array
+     */
+    public function sortByPriority($keys, $indexes)
+    {
+        if (count($indexes) > 1) {
+            usort($indexes, function ($a, $b) {
+                if ($a['priority'] === $b['priority']) {
+                    return 0;
+                }
+
+                return $a['priority'] < $b['priority'] ? -1 : 1;
+            });
+        }
+
+        return array_column($indexes, 'key');
     }
 }
